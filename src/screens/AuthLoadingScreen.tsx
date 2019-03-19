@@ -1,7 +1,9 @@
 import React from "react";
-import { ActivityIndicator, StatusBar, View } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
+import { Container, Content, Spinner } from "native-base";
 import { NavigationScreenProps } from "react-navigation";
+import theme from "../utils/theme";
 
 type Props = NavigationScreenProps;
 
@@ -23,12 +25,26 @@ class AuthLoadingScreen extends React.Component<Props> {
   // Render any loading content that you like here
   render() {
     return (
-      <View>
-        <StatusBar barStyle="default" />
-        <ActivityIndicator />
-      </View>
+      <Container>
+        <Content contentContainerStyle={styles.content}>
+          <StatusBar
+            backgroundColor={theme.colors.bg}
+            barStyle="dark-content"
+          />
+          <Spinner color={theme.colors.primary} />
+        </Content>
+      </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  content: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: theme.colors.bg
+  }
+});
 
 export default AuthLoadingScreen;
