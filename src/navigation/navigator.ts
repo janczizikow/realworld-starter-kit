@@ -17,7 +17,9 @@ const AppStack = createStackNavigator(
 
 const AuthStack = createStackNavigator(
   {
-    Welcome: screens.WelcomeScreen
+    Welcome: screens.WelcomeScreen,
+    SignIn: screens.SignInScreen,
+    SignUp: screens.SignUpScreen
   },
   {
     initialRouteName: "Welcome",
