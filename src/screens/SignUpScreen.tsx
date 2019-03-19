@@ -1,12 +1,19 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+import { Text } from "native-base";
+import { AuthLayout } from "../components";
 
 export default class SignUpScreen extends Component {
   render() {
     return (
-      <View>
+      <AuthLayout
+        title="Sign up"
+        subTitle="Enter the information below to create your account and explore!"
+      >
         <Text> textInComponent </Text>
-      </View>
+      </AuthLayout>
     );
   }
 }
+
+const styles = StyleSheet.create({});
