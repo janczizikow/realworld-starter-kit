@@ -12,7 +12,9 @@ const ErrorMessage: React.FunctionComponent<Props> = ({ errors }) =>
   errors ? (
     <View style={styles.root}>
       {Object.keys(errors).map(error => (
-        <Text style={styles.text}>{`${error} ${errors[error]}`}</Text>
+        <Text key={Math.random()} style={styles.text}>{`${error} ${
+          errors[error]
+        }`}</Text>
       ))}
     </View>
   ) : null;
@@ -20,7 +22,6 @@ const ErrorMessage: React.FunctionComponent<Props> = ({ errors }) =>
 const styles = StyleSheet.create({
   root: {
     padding: theme.spacing.md
-    // backgroundColor: ''
   },
   text: {
     color: theme.colors.error
