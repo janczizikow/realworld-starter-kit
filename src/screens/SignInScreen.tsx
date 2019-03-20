@@ -1,20 +1,44 @@
 import React, { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Text, Form, Item, Label, Button, Input } from "native-base";
+import { connect } from "react-redux";
+import { Text, Form, Item, Label, Button, Input, Spinner } from "native-base";
 import { withFormik, FormikProps } from "formik";
 import * as Yup from "yup";
+import { Dispatch } from "redux";
 import { NavigationScreenProps } from "react-navigation";
-import { AuthLayout } from "../components";
+import { AuthLayout, ErrorMessage } from "../components";
+import { login, isAuthenticated } from "../store/auth";
 import theme from "../utils/theme";
+import { AuthPayload, Errors } from "../store/auth/types";
+import { RootState } from "../store/types";
 
 interface FormValues {
   email: string;
   password: string;
 }
 
-type Props = FormikProps<FormValues> & NavigationScreenProps;
+interface StateProps {
+  isFetching: boolean;
+  isAuthenticated: boolean;
+  authErrors: null | Errors;
+}
+
+interface DispatchProps {
+  login: (payload: AuthPayload) => void;
+}
+
+type Props = StateProps &
+  DispatchProps &
+  FormikProps<FormValues> &
+  NavigationScreenProps;
 
 class SignInScreen extends Component<Props> {
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.isAuthenticated) {
+      this.props.navigation.navigate("App");
+    }
+  }
+
   render() {
     const {
       values,
@@ -23,7 +47,8 @@ class SignInScreen extends Component<Props> {
       handleChange,
       handleBlur,
       handleSubmit,
-      isSubmitting
+      isFetching,
+      authErrors
     } = this.props;
     const emailError = errors.email && touched.email && errors.email;
     const passwordError =
@@ -78,13 +103,18 @@ class SignInScreen extends Component<Props> {
           </Item>
           <Button
             full
-            style={[styles.button, isSubmitting ? { opacity: 0.8 } : {}]}
-            disabled={isSubmitting}
+            style={[styles.button, isFetching ? { opacity: 0.8 } : {}]}
+            disabled={isFetching}
             onPress={handleSubmit}
           >
-            {isSubmitting ? <Text>Sign In</Text> : <Text>Sign In</Text>}
+            {isFetching ? (
+              <Spinner size="small" color="#fff" />
+            ) : (
+              <Text>Sign In</Text>
+            )}
           </Button>
         </Form>
+        <ErrorMessage errors={authErrors} />
       </AuthLayout>
     );
   }
@@ -116,14 +146,29 @@ const validationSchema = Yup.object().shape({
     .min(8, "Password is too short")
 });
 
-export default withFormik<NavigationScreenProps, FormValues>({
+const SignInScreenWithFormik = withFormik<
+  StateProps & DispatchProps & NavigationScreenProps,
+  FormValues
+>({
   mapPropsToValues: () => ({ email: "", password: "" }),
   validationSchema,
-  handleSubmit: (values, { props, setSubmitting }) => {
-    setTimeout(() => {
-      setSubmitting(false);
-      props.navigation.navigate("App");
-    }, 1500);
+  handleSubmit: (values, { props: { login } }) => {
+    login({ email: values.email, password: values.password });
   },
   displayName: "SignInForm"
 })(SignInScreen);
+
+const mapStateToProps = (state: RootState): StateProps => ({
+  isFetching: state.auth.isFetching,
+  isAuthenticated: isAuthenticated(state.auth),
+  authErrors: state.auth.errors
+});
+
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+  login: (payload: AuthPayload) => dispatch(login(payload))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignInScreenWithFormik);
