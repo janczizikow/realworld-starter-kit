@@ -7,7 +7,8 @@ import * as screens from "../screens";
 
 const AppStack = createStackNavigator(
   {
-    Home: screens.HomeScreen
+    Home: screens.HomeScreen,
+    Article: screens.ArticleScreen
   },
   {
     initialRouteName: "Home",
