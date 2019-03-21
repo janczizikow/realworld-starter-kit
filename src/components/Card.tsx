@@ -9,21 +9,18 @@ interface Props {
   date: string;
   title: string;
   description: string;
+  onPress: () => void;
 }
 
 class Card extends PureComponent<Props> {
-  goToArticle = () => {
-    console.warn("go to article");
-  };
-
   render() {
-    const { author, avatarURI, date, title, description } = this.props;
+    const { author, avatarURI, date, title, description, onPress } = this.props;
 
     return (
-      <TouchableOpacity onPress={this.goToArticle}>
+      <TouchableOpacity onPress={onPress}>
         <View style={styles.card}>
           <View style={styles.content}>
-            <AuthorMeta author={author} date={date} />
+            <AuthorMeta author={author} date={date} avatarURI={avatarURI} />
             <View>
               <Text style={styles.title}>{title}</Text>
               <Text style={styles.description}>{description}</Text>
@@ -38,7 +35,6 @@ class Card extends PureComponent<Props> {
 
 const styles = StyleSheet.create({
   card: {
-    marginVertical: 10,
     backgroundColor: "#fff",
     borderBottomColor: theme.colors.border,
     borderBottomWidth: 1

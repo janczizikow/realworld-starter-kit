@@ -1,26 +1,63 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
-import { Container } from "native-base";
+import { FlatList, View, StyleSheet, ListRenderItemInfo } from "react-native";
+import { connect } from "react-redux";
+import { Container, Spinner } from "native-base";
 import { NavigationScreenProps } from "react-navigation";
+import { Dispatch } from "redux";
 import { Header, Card } from "../components";
+import { fetchArticles } from "../store/articles";
+import { Article } from "../store/articles/types";
+import { RootState } from "../store/types";
 import theme from "../utils/theme";
 
-type Props = NavigationScreenProps;
+interface StateProps {
+  articles: Article[];
+}
+interface DispatchProps {
+  fetchArticles: () => void;
+}
 
-export default class HomeScreen extends Component<Props> {
-  componentDidMount() {}
+type Props = StateProps & DispatchProps & NavigationScreenProps;
+
+class HomeScreen extends Component<Props> {
+  componentDidMount() {
+    if (!this.props.articles.length) {
+      this.props.fetchArticles();
+    }
+  }
+
+  keyExtractor = (article: Article) => article.slug;
+
+  onPressArticle = () => {
+    this.props.navigation.navigate("Article");
+  };
+
+  renderArticle = ({ item }: ListRenderItemInfo<Article>) => (
+    <Card
+      author={item.author.username}
+      title={item.title}
+      avatarURI={item.author.image}
+      description={item.description}
+      date={item.createdAt}
+      onPress={this.onPressArticle}
+    />
+  );
 
   render() {
+    const { articles, fetchArticles } = this.props;
+
     return (
       <Container style={styles.root}>
         <Header left={{ icon: "menu" }} title="Home" dark />
         <View style={styles.content}>
-          <Card
-            author="John Doe"
-            title="Test"
-            avatarURI=""
-            description="testing 123"
-            date={new Date().toString()}
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={articles}
+            keyExtractor={this.keyExtractor}
+            renderItem={this.renderArticle}
+            ListFooterComponent={<Spinner color="#000" />}
+            onEndReachedThreshold={0.9}
+            onEndReached={fetchArticles}
           />
         </View>
       </Container>
@@ -36,3 +73,21 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+const mapStateToProps = (state: RootState): StateProps => ({
+  articles: state.articles.list
+});
+
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+  fetchArticles: () => dispatch(fetchArticles())
+});
+
+export default connect<
+  StateProps,
+  DispatchProps,
+  NavigationScreenProps,
+  RootState
+>(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen);
