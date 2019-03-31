@@ -33,7 +33,7 @@ type Props = StateProps &
   NavigationScreenProps;
 
 class SignInScreen extends Component<Props> {
-  componentDidUpdate(prevProps: Props) {
+  componentDidUpdate() {
     if (this.props.isAuthenticated) {
       this.props.navigation.navigate("App");
     }
@@ -168,7 +168,12 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
   login: (payload: AuthPayload) => dispatch(login(payload))
 });
 
-export default connect(
+export default connect<
+  StateProps,
+  DispatchProps,
+  NavigationScreenProps,
+  RootState
+>(
   mapStateToProps,
   mapDispatchToProps
 )(SignInScreenWithFormik);
