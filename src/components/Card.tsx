@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
-import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import AuthorMeta from "./AuthorMeta";
+import TouchablePlatformSpecific from "./TouchablePlatformSpecific";
 import theme from "../utils/theme";
 
 interface Props {
@@ -17,7 +18,7 @@ class Card extends PureComponent<Props> {
     const { author, avatarURI, date, title, description, onPress } = this.props;
 
     return (
-      <TouchableOpacity onPress={onPress}>
+      <TouchablePlatformSpecific onPress={onPress}>
         <View style={styles.card}>
           <View style={styles.content}>
             <AuthorMeta author={author} date={date} avatarURI={avatarURI} />
@@ -28,7 +29,7 @@ class Card extends PureComponent<Props> {
             <View>{/* TODO: FOOTER Favorite button */}</View>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchablePlatformSpecific>
     );
   }
 }
