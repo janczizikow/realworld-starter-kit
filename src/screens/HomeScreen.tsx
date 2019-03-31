@@ -13,6 +13,7 @@ import theme from "../utils/theme";
 interface StateProps {
   articles: Article[];
 }
+
 interface DispatchProps {
   fetchArticles: () => void;
 }
@@ -28,12 +29,13 @@ class HomeScreen extends Component<Props> {
 
   keyExtractor = (article: Article) => article.slug;
 
-  onPressArticle = () => {
-    this.props.navigation.navigate("Article");
+  onPressArticle = (slug: string) => {
+    this.props.navigation.navigate("Article", { slug });
   };
 
   renderArticle = ({ item }: ListRenderItemInfo<Article>) => (
     <Card
+      slug={item.slug}
       author={item.author.username}
       title={item.title}
       avatarURI={item.author.image}
@@ -51,12 +53,13 @@ class HomeScreen extends Component<Props> {
         <Header left={{ icon: "menu" }} title="Home" dark />
         <View style={styles.content}>
           <FlatList
+            initialNumToRender={5}
             showsVerticalScrollIndicator={false}
             data={articles}
             keyExtractor={this.keyExtractor}
             renderItem={this.renderArticle}
             ListFooterComponent={<Spinner color="#000" />}
-            onEndReachedThreshold={0.9}
+            onEndReachedThreshold={0.5}
             onEndReached={fetchArticles}
           />
         </View>

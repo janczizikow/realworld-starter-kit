@@ -5,20 +5,25 @@ import TouchablePlatformSpecific from "./TouchablePlatformSpecific";
 import theme from "../utils/theme";
 
 interface Props {
+  slug: string;
   author: string;
   avatarURI: string;
   date: string;
   title: string;
   description: string;
-  onPress: () => void;
+  onPress: (slug: string) => void;
 }
 
 class Card extends PureComponent<Props> {
+  goToArticle = () => {
+    this.props.onPress(this.props.slug);
+  };
+
   render() {
-    const { author, avatarURI, date, title, description, onPress } = this.props;
+    const { author, avatarURI, date, title, description } = this.props;
 
     return (
-      <TouchablePlatformSpecific onPress={onPress}>
+      <TouchablePlatformSpecific onPress={this.goToArticle}>
         <View style={styles.card}>
           <View style={styles.content}>
             <AuthorMeta author={author} date={date} avatarURI={avatarURI} />
