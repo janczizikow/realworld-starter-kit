@@ -16,48 +16,48 @@ export interface Article {
 }
 
 // State
-export interface ArticlesState {
+export interface HomeState {
   isFetching: boolean;
   page: number;
-  list: Article[];
+  articles: Article[];
   // errors: null | Errors;
 }
 
 // Action Types
-export enum ArticlesActionTypes {
-  FETCH_ARTICLES = "articles/FETCH_ARTICLES",
-  SET_ARTICLES = "articles/SET_ARTICLES",
-  APPEND_ARTICLES = "articles/APPEND_ARTICLES",
-  FETCH_ARTICLES_FAILED = "articles/FETCH_ARTICLES_FAILED"
+export enum HomeActionTypes {
+  FETCH_ARTICLES = "home/FETCH_ARTICLES",
+  SET_ARTICLES = "home/SET_ARTICLES",
+  APPEND_ARTICLES = "home/APPEND_ARTICLES",
+  FETCH_ARTICLES_FAILED = "home/FETCH_ARTICLES_FAILED"
 }
 
-export type ArticlesActionType =
-  | ArticlesActionTypes.FETCH_ARTICLES
-  | ArticlesActionTypes.SET_ARTICLES
-  | ArticlesActionTypes.APPEND_ARTICLES
-  | ArticlesActionTypes.FETCH_ARTICLES_FAILED;
+export type HomeActionType =
+  | HomeActionTypes.FETCH_ARTICLES
+  | HomeActionTypes.SET_ARTICLES
+  | HomeActionTypes.APPEND_ARTICLES
+  | HomeActionTypes.FETCH_ARTICLES_FAILED;
 
 // Action creators
 
 export interface FetchArticlesAction {
-  type: ArticlesActionTypes.FETCH_ARTICLES;
+  type: HomeActionTypes.FETCH_ARTICLES;
 }
 
 export interface SetArticlesAction {
-  type: ArticlesActionTypes.SET_ARTICLES;
+  type: HomeActionTypes.SET_ARTICLES;
   articles: Article[];
 }
 
 export interface AppendArticlesAction {
-  type: ArticlesActionTypes.APPEND_ARTICLES;
+  type: HomeActionTypes.APPEND_ARTICLES;
   articles: Article[];
 }
 
 export interface FetchArticlesFailedAction {
-  type: ArticlesActionTypes.FETCH_ARTICLES_FAILED;
+  type: HomeActionTypes.FETCH_ARTICLES_FAILED;
 }
 
-export type ArticlesActions =
+export type HomeActions =
   | FetchArticlesAction
   | SetArticlesAction
   | AppendArticlesAction

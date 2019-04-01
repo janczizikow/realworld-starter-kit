@@ -5,8 +5,8 @@ import { Container, Spinner } from "native-base";
 import { NavigationScreenProps } from "react-navigation";
 import { Dispatch } from "redux";
 import { Header, Card } from "../components";
-import { fetchArticles } from "../store/articles";
-import { Article } from "../store/articles/types";
+import { fetchArticles } from "../store/home";
+import { Article } from "../store/home/types";
 import { RootState } from "../store/types";
 import theme from "../utils/theme";
 
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  articles: state.articles.list
+  articles: state.home.articles
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({

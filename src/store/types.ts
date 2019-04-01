@@ -1,9 +1,9 @@
 import { AuthState, AuthActions } from "./auth/types";
-import { ArticlesState, ArticlesActions } from "./articles/types";
+import { HomeState, HomeActions } from "./home/types";
 
 export interface RootState {
   auth: AuthState;
-  articles: ArticlesState;
+  home: HomeState;
 }
 
-export type RootActions = AuthActions | ArticlesActions;
+export type RootActions = AuthActions | HomeActions;

@@ -1,6 +1,6 @@
 import {
   Article,
-  ArticlesActionTypes,
+  HomeActionTypes,
   FetchArticlesAction,
   SetArticlesAction,
   AppendArticlesAction,
@@ -8,19 +8,19 @@ import {
 } from "./types";
 
 export const fetchArticles = (): FetchArticlesAction => ({
-  type: ArticlesActionTypes.FETCH_ARTICLES
+  type: HomeActionTypes.FETCH_ARTICLES
 });
 
 export const setArticles = (articles: Article[]): SetArticlesAction => ({
-  type: ArticlesActionTypes.SET_ARTICLES,
+  type: HomeActionTypes.SET_ARTICLES,
   articles
 });
 
 export const appendArticles = (articles: Article[]): AppendArticlesAction => ({
-  type: ArticlesActionTypes.APPEND_ARTICLES,
+  type: HomeActionTypes.APPEND_ARTICLES,
   articles
 });
 
 export const fetchArticlesFailed = (): FetchArticlesFailedAction => ({
-  type: ArticlesActionTypes.FETCH_ARTICLES_FAILED
+  type: HomeActionTypes.FETCH_ARTICLES_FAILED
 });

@@ -3,7 +3,7 @@ import { withLatestFrom, switchMap, map, catchError } from "rxjs/operators";
 import { from, of } from "rxjs";
 import ApiService from "../../services/ApiService";
 import { setArticles, fetchArticlesFailed, appendArticles } from "./actions";
-import { ArticlesActionTypes, FetchArticlesAction } from "./types";
+import { HomeActionTypes, FetchArticlesAction } from "./types";
 import { RootState, RootActions } from "../types";
 
 export const fetchArticlesEpic: Epic<RootActions, RootActions, RootState> = (
@@ -11,20 +11,18 @@ export const fetchArticlesEpic: Epic<RootActions, RootActions, RootState> = (
   state$
 ) =>
   action$.pipe(
-    ofType<RootActions, FetchArticlesAction>(
-      ArticlesActionTypes.FETCH_ARTICLES
-    ),
+    ofType<RootActions, FetchArticlesAction>(HomeActionTypes.FETCH_ARTICLES),
     withLatestFrom(state$),
     switchMap(([_, state]) =>
       from(
         ApiService.get(
-          `/articles?offset=${
-            state.articles.page ? state.articles.page * 20 : 0
+          `/articles?limit=10&offset=${
+            state.home.page ? state.home.page * 10 : 0
           }`
         )
       ).pipe(
         map(res =>
-          state.articles.list.length
+          state.home.articles.length
             ? appendArticles(res.data.articles)
             : setArticles(res.data.articles)
         ),

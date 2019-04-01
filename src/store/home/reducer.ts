@@ -1,36 +1,40 @@
 import { Reducer } from "redux";
-import { ArticlesState, ArticlesActionTypes, ArticlesActions } from "./types";
+import { HomeState, HomeActionTypes, HomeActions } from "./types";
 
 const initialState = {
   isFetching: false,
   page: 0,
-  list: []
+  articles: []
 };
 
-const reducer: Reducer<ArticlesState, ArticlesActions> = (
+const reducer: Reducer<HomeState, HomeActions> = (
   state = initialState,
   action
 ) => {
   switch (action.type) {
-    case ArticlesActionTypes.FETCH_ARTICLES:
+    case HomeActionTypes.FETCH_ARTICLES:
       return {
         ...state,
         isFetching: true
       };
-    case ArticlesActionTypes.SET_ARTICLES:
+    case HomeActionTypes.SET_ARTICLES:
       return {
         ...state,
         isFetching: false,
-        list: action.articles,
+        articles: action.articles,
         page: state.page + 1
       };
-    case ArticlesActionTypes.APPEND_ARTICLES:
-      const list = state.list.concat(action.articles);
+    case HomeActionTypes.APPEND_ARTICLES:
       return {
         ...state,
         isFetching: false,
-        list,
+        articles: [...state.articles, ...action.articles],
         page: state.page + 1
+      };
+    case HomeActionTypes.FETCH_ARTICLES_FAILED:
+      return {
+        ...state,
+        isFetching: false
       };
     default:
       return state;

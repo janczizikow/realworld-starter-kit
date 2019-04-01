@@ -7,23 +7,23 @@ import {
 import { combineEpics, createEpicMiddleware } from "redux-observable";
 import logger from "redux-logger";
 import auth from "./auth/reducer";
-import articles from "./articles/reducer";
+import home from "./home/reducer";
 import * as authEpics from "./auth/epics";
-import * as articlesEpics from "./articles/epics";
+import * as homeEpics from "./home/epics";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import { RootState, RootActions } from "./types";
 
 const configureStore = (initialState?: RootState) => {
   const rootReducer = combineReducers({
     auth,
-    articles
+    home
   });
   const rootEpic = combineEpics<RootActions, RootActions, RootState, {}>(
     authEpics.loginEpic,
     authEpics.registerEpic,
     authEpics.setTokenEpic,
     authEpics.removeTokenEpic,
-    articlesEpics.fetchArticlesEpic
+    homeEpics.fetchArticlesEpic
   );
   const epicMiddleware = createEpicMiddleware<
     RootActions,
