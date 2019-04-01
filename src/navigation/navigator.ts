@@ -1,14 +1,37 @@
 import {
   createSwitchNavigator,
   createStackNavigator,
-  createAppContainer
+  createAppContainer,
+  createDrawerNavigator
 } from "react-navigation";
 import * as screens from "../screens";
+import Drawer from "./Drawer";
+
+const HomeDrawer = createDrawerNavigator(
+  {
+    Home: screens.HomeScreen
+  },
+  {
+    contentComponent: Drawer
+  }
+);
+
+const ProfileStack = createStackNavigator(
+  {
+    Profile: screens.ProfileScreen,
+    Article: screens.ArticleScreen
+  },
+  {
+    initialRouteName: "Profile",
+    headerMode: "none"
+  }
+);
 
 const AppStack = createStackNavigator(
   {
-    Home: screens.HomeScreen,
-    Article: screens.ArticleScreen
+    Home: HomeDrawer,
+    Article: screens.ArticleScreen,
+    Profile: ProfileStack
   },
   {
     initialRouteName: "Home",

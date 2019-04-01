@@ -27,6 +27,10 @@ class HomeScreen extends Component<Props> {
     }
   }
 
+  openDrawer = () => {
+    this.props.navigation.openDrawer();
+  };
+
   keyExtractor = (article: Article) => article.slug;
 
   onPressArticle = (slug: string) => {
@@ -50,7 +54,11 @@ class HomeScreen extends Component<Props> {
 
     return (
       <Container style={styles.root}>
-        <Header left={{ icon: "menu" }} title="Home" dark />
+        <Header
+          left={{ icon: "menu", onPress: this.openDrawer }}
+          title="Home"
+          dark
+        />
         <View style={styles.content}>
           <FlatList
             initialNumToRender={5}

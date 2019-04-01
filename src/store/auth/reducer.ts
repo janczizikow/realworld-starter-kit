@@ -32,6 +32,7 @@ const auth: Reducer<AuthState, AuthActions> = (
         errors: action.errors
       };
     case AuthActionTypes.LOGOUT:
+      return initialState;
     default:
       return state;
   }
